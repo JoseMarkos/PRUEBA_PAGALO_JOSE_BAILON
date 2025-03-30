@@ -1,0 +1,28 @@
+<div class="p-4">
+    <!-- Películas en Cartelera -->
+    <h2 class="text-xl font-bold mb-2">🎬 En Cartelera</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div *ngFor="let movie of nowPlaying" class="bg-gray-800 p-2 rounded-lg">
+        <img
+          [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+          alt="{{ movie.title }}"
+          class="rounded-lg"
+        />
+        <p class="text-white text-sm mt-1">{{ movie.title }}</p>
+      </div>
+    </div>
+  
+    <!-- Películas Más Votadas -->
+    <h2 class="text-xl font-bold mt-6 mb-2">⭐ Más Votadas</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div *ngFor="let movie of topRated" class="bg-gray-800 p-2 rounded-lg">
+        <img
+          [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+          alt="{{ movie.title }}"
+          class="rounded-lg"
+        />
+        <p class="text-white text-sm mt-1">{{ movie.title }}</p>
+      </div>
+    </div>
+  </div>
+  
