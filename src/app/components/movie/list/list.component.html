@@ -1,28 +1,38 @@
 <div class="p-4">
-    <!-- Películas en Cartelera -->
-    <h2 class="text-xl font-bold mb-2">🎬 En Cartelera</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-      <div *ngFor="let movie of nowPlaying" class="bg-gray-800 p-2 rounded-lg">
-        <img
-          [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
-          alt="{{ movie.title }}"
-          class="rounded-lg"
-        />
-        <p class="text-white text-sm mt-1">{{ movie.title }}</p>
-      </div>
-    </div>
-  
-    <!-- Películas Más Votadas -->
-    <h2 class="text-xl font-bold mt-6 mb-2">⭐ Más Votadas</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-      <div *ngFor="let movie of topRated" class="bg-gray-800 p-2 rounded-lg">
-        <img
-          [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
-          alt="{{ movie.title }}"
-          class="rounded-lg"
-        />
-        <p class="text-white text-sm mt-1">{{ movie.title }}</p>
-      </div>
-    </div>
+  <h2 class="text-xl font-bold mb-2">{{ title }}</h2>
+  <div class="mb-4">
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Buscar película" class="p-2 border rounded">
+    <input type="date" [(ngModel)]="startDate" class="p-2 border rounded">
+    <input type="date" [(ngModel)]="endDate" class="p-2 border rounded">
+    <button (click)="applyFilters()" class="bg-blue-500 text-white p-2 rounded">Buscar</button>
   </div>
-  
+
+
+  <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+    @for (movie of movies; track $index) {
+      <div class="bg-gray-800 p-2 rounded-lg">
+        <img
+          [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+          alt="{{ movie.title }}"
+          class="rounded-lg"
+        />
+        <p class="text-white text-sm mt-1">{{ movie.title }}</p>
+
+        <div class="text-yellow-500 text-sm mt-1">
+          Puntuación: {{ movie.vote_average | number: '1.1-1' }}
+        </div>
+
+        <a [routerLink]="['/movie', movie.id]" class="text-blue-500 mt-2 inline-block">Ver Detalle</a>
+        @for (tag of movie.tags; track tag) {
+          {{tag}}
+        }
+      </div>
+    } @empty {
+      <p class="text-white">No hay películas disponibles.</p>
+    }
+  </div>
+
+  @if (isLoading) {
+    <div class="text-center text-white mt-4">Cargando más películas...</div>
+  }
+</div>

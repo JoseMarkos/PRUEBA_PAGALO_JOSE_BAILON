@@ -1,49 +1,62 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { TmdbService } from '../tmdb.service';
+import { Component, Input, OnInit, HostListener } from '@angular/core';
+import { TmdbService } from '../../../services/tmdb.service';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';  // Importa FormsModule
 
 @Component({
   selector: 'app-movies-list',
-  templateUrl: './movies-list.component.html',
+  templateUrl: './list.component.html',
+  imports: [
+    CommonModule,
+    RouterLink,
+    FormsModule
+  ]
 })
-export class MoviesListComponent implements OnInit {
-  nowPlaying: any[] = [];
-  topRated: any[] = [];
-  nowPlayingPage = 1;
-  topRatedPage = 1;
-  isLoading = false;
-
+export class ListComponent implements OnInit {
+  @Input() endpoint: string = '';
+  @Input() title: string = 'Listado de Películas';
+  
+  movies: any[] = [];
+  isLoading: boolean = false;
+  searchQuery: string = '';
+  startDate: string = '';
+  endDate: string = '';
+  page =1;
+  
   constructor(private tmdbService: TmdbService) {}
 
   ngOnInit() {
-    this.loadNowPlaying();
-    this.loadTopRated();
+    if (this.endpoint) {
+      this.loadMovies();
+    }
   }
 
-  loadNowPlaying() {
-    if (this.isLoading) return;
+  loadMovies(page: number = 1) {
     this.isLoading = true;
-    this.tmdbService.getNowPlaying(this.nowPlayingPage).subscribe((res: any) => {
-      this.nowPlaying.push(...res.results);
-      this.nowPlayingPage++;
-      this.isLoading = false;
-    });
+    console.log(this.endDate, this.endpoint, this.searchQuery)
+    this.tmdbService.getMoviesList(this.endpoint, page, this.searchQuery, this.startDate, this.endDate).subscribe(
+      (response: any) => {
+        this.movies.push(...response.results);
+        this.isLoading = false;
+        console.log(response.results)
+      },
+      error => {
+        console.error('Error al obtener películas:', error);
+        this.isLoading = false;
+      }
+    );
   }
 
-  loadTopRated() {
-    if (this.isLoading) return;
-    this.isLoading = true;
-    this.tmdbService.getTopRated(this.topRatedPage).subscribe((res: any) => {
-      this.topRated.push(...res.results);
-      this.topRatedPage++;
-      this.isLoading = false;
-    });
+  applyFilters() {
+    this.loadMovies();
   }
 
   @HostListener('window:scroll', [])
   onScroll() {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-      this.loadNowPlaying();
-      this.loadTopRated();
+      this.page++;
+      this.loadMovies(this.page);
     }
   }
 }
