@@ -1,8 +1,19 @@
 <style>
 </style>
 
-<h1 class="text-3xl font-bold underline">
-  Hello world!
+<h1 class="text-3xl font-bold text-center pt-8">
+  Prueba Pagalo TMDB
 </h1>
+<section class="container m-auto grid grid-cols-12 gap-4 p-4">
+  <!-- Columna de filtros -->
+  <aside class="col-span-3 bg-gray-100 p-4 rounded-lg shadow">
+    <h2 class="text-lg font-semibold">Filtros</h2>
+    <!-- Agrega aquí los filtros -->
+  </aside>
+  
+  <!-- Columna de contenido -->
+  <main class="col-span-9 bg-white p-4 rounded-lg shadow">
+    <router-outlet></router-outlet>
+  </main>
+</section>
 
-<router-outlet />
