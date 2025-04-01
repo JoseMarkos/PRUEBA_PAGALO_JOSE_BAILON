@@ -1,38 +1,50 @@
-<div class="p-4">
-  <h2 class="text-xl font-bold mb-2">{{ title }}</h2>
-  <div class="mb-4">
-    <input type="text" [(ngModel)]="searchQuery" placeholder="Buscar película" class="p-2 border rounded">
-    <input type="date" [(ngModel)]="startDate" class="p-2 border rounded">
-    <input type="date" [(ngModel)]="endDate" class="p-2 border rounded">
-    <button (click)="applyFilters()" class="bg-blue-500 text-white p-2 rounded">Buscar</button>
-  </div>
-
-
-  <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-    @for (movie of movies; track $index) {
-      <div class="bg-gray-800 p-2 rounded-lg">
-        <img
-          [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
-          alt="{{ movie.title }}"
-          class="rounded-lg"
-        />
-        <p class="text-white text-sm mt-1">{{ movie.title }}</p>
-
-        <div class="text-yellow-500 text-sm mt-1">
-          Puntuación: {{ movie.vote_average | number: '1.1-1' }}
-        </div>
-
-        <a [routerLink]="['/movie', movie.id]" class="text-blue-500 mt-2 inline-block">Ver Detalle</a>
-        @for (tag of movie.tags; track tag) {
-          {{tag}}
+<section class="container m-auto grid grid-cols-12 gap-4 p-4">
+  <!-- Columna de filtros -->
+  <aside class="col-span-3 bg-gray-100 p-4 rounded-lg shadow">
+    <h2 class="text-lg font-semibold">Filtros</h2>
+    <!-- Agrega aquí los filtros -->
+  </aside>
+  
+  <!-- Columna de contenido -->
+  <main class="col-span-9 bg-white p-4 rounded-lg shadow">
+    <div class="p-4">
+      <h2 class="text-xl font-bold mb-2">{{ title }}</h2>
+      <div class="mb-4">
+        <input type="text" [(ngModel)]="searchQuery" placeholder="Buscar película" class="p-2 border rounded">
+        <input type="date" [(ngModel)]="startDate" class="p-2 border rounded">
+        <input type="date" [(ngModel)]="endDate" class="p-2 border rounded">
+        <button (click)="applyFilters()" class="bg-blue-500 text-white p-2 rounded">Buscar</button>
+      </div>
+    
+    
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        @for (movie of movies; track $index) {
+          <div class="bg-gray-800 p-2 rounded-lg">
+            <img
+              [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+              alt="{{ movie.title }}"
+              class="rounded-lg"
+            />
+            <p class="text-white text-sm mt-1">{{ movie.title }}</p>
+    
+            <div class="text-yellow-500 text-sm mt-1">
+              Puntuación: {{ movie.vote_average | number: '1.1-1' }}
+            </div>
+    
+            <a [routerLink]="['/movies', movie.id]" class="text-blue-500 mt-2 inline-block">Ver Detalle</a>
+            @for (tag of movie.tags; track tag) {
+              {{tag}}
+            }
+          </div>
+        } @empty {
+          <p class="text-white">No hay películas disponibles.</p>
         }
       </div>
-    } @empty {
-      <p class="text-white">No hay películas disponibles.</p>
-    }
-  </div>
+    
+      @if (isLoading) {
+        <div class="text-center text-white mt-4">Cargando más películas...</div>
+      }
+    </div>    
+  </main>
+</section>
 
-  @if (isLoading) {
-    <div class="text-center text-white mt-4">Cargando más películas...</div>
-  }
-</div>
