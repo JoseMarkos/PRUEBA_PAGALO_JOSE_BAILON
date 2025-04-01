@@ -1,5 +1,23 @@
 # PruebaPagalo
 
+## Rutas
+https://pagalo.josebailon.vip/mas-populares
+https://pagalo.josebailon.vip/en-cartelera
+
+https://pagalo.josebailon.vip/ movies:id
+https://pagalo.josebailon.vip/movies/1125899
+## Funcionalidades
+Scroll infinito
+Rutas de lista y vista simple
+Reutlización de Componentes
+## Tecnologías
+Angular 19+
+Tailwind
+
+
+
+
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
 
 ## Development server
