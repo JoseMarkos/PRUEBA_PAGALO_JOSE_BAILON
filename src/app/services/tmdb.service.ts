@@ -68,4 +68,11 @@ export class TmdbService {
   getTopRated(page: number, searchQuery?: string, startDate?: string, endDate?: string) {
     return this.getMoviesList('top_rated', page, searchQuery, startDate, endDate);
   }
+
+  getMovieById(id: string) {
+    return this.http.get(`${this.API_URL}/movie/${id}`, {
+      headers: this.createHeaders(),
+      params: { language: 'es' }
+    });
+  }  
 }
